@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Test Environment
-        uses: ./.github/custom-actions
+        uses: ./.github/workflows/custom-actions
         with:
           node-version: "20"
 
