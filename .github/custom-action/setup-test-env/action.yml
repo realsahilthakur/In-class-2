@@ -1,15 +1,15 @@
 name: 'Setup Test Environment'
-description: 'Install dependencies and prepare testing environment'
+description: 'Install dependencies and run tests using Jest'
 
 runs:
   using: "composite"
   steps:
-    - name: Set up Node
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    - name: Install Node dependencies
+    - name: Install dependencies
       run: npm install
       shell: bash
 
@@ -17,6 +17,10 @@ runs:
       run: npm install --save-dev jest
       shell: bash
 
-    - name: Run tests
+    - name: Fix Jest permission
+      run: chmod +x ./node_modules/.bin/jest
+      shell: bash
+
+    - name: Run Jest tests
       run: npx jest
       shell: bash
