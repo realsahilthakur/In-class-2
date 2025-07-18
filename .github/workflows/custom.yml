@@ -1,0 +1,17 @@
+name: Run Tests with Custom Action
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Test Environment
+        uses: ./.github/custom-actions
+        with:
+          node-version: "20"
+
+      - name: Run tests
+        run: npm test
