@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Run Unit Tests and Upload Coverage Report
 
 on:
   push:
@@ -8,7 +8,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout code
@@ -22,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test -- --coverage
+      - name: Run tests with coverage
+        run: npx jest --coverage
 
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
-          name: test-report
+          name: test-report-${{ matrix.runner }}
           path: coverage/
