@@ -4,10 +4,19 @@ description: 'Install dependencies and prepare testing environment'
 runs:
   using: "composite"
   steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
     - name: Install Node dependencies
       run: npm install
       shell: bash
 
     - name: Install Jest
       run: npm install --save-dev jest
+      shell: bash
+
+    - name: Run tests
+      run: npx jest
       shell: bash

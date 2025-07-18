@@ -9,10 +9,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Test Environment
+      - name: Setup Test Environment and Run Tests
         uses: ./.github/custom-action/setup-test-env
-        with:
-          node-version: "20"
-
-      - name: Run tests
-        run: npm test
