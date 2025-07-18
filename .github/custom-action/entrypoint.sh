@@ -1,4 +1,8 @@
-#!/bin/sh 
+#!/bin/sh
 
-echo "🎉 Hello from our custom Docker action!"
-echo "📦 Hello welcome to out Git actions actions"
+echo "Installing dependencies..."
+npm install
+npm install --save-dev jest
+
+echo "Running tests with Jest..."
+npx jest

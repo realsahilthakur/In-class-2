@@ -1,13 +1,8 @@
-FROM alpine:latest
+FROM node:20-alpine
 
-# Install curl (or anything else needed inside the script)
-RUN apk add --no-cache curl
+WORKDIR /app
 
-# Copy the entrypoint script from your repo into the container
-COPY /entrypoint.sh /entrypoint.sh
-
-# Make it executable
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Set it as the default command
 ENTRYPOINT ["/entrypoint.sh"]
