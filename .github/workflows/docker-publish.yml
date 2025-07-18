@@ -33,8 +33,3 @@ jobs:
           curl -f http://localhost:3000
           docker stop test-app
           docker rm test-app
-
-      - name: 🔧 Run custom Docker action
-        uses: ./.github/custom-action
-        with:
-          message: "This is from Sneha's & Sahil's custom GitHub Action!"
