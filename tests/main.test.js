@@ -10,4 +10,10 @@ describe('ToDo App', () => {
     expect(todo.completed).toBe(false);
     expect(typeof todo.id).toBe('number');
   });
+
+  test('should toggle todo completion', () => {
+    const todo = { id: 1, text: 'Test', completed: false };
+    todo.completed = !todo.completed;
+    expect(todo.completed).toBe(true);
+  });
 });
