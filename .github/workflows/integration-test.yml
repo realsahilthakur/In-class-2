@@ -1,0 +1,41 @@
+name: Integration Test with Service Container
+
+on:
+  workflow_run:
+    workflows: ["Build and Push Docker Image to GitHub Packages"]
+    types:
+      - completed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      app:
+        image: ghcr.io/${{ github.repository }}:latest
+        ports:
+          - 3000:3000
+        options: >-
+          --health-cmd="curl --fail http://localhost:3000 || exit 1"
+          --health-interval=5s
+          --health-retries=5
+          --health-timeout=3s
+          --health-start-period=5s
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Wait for container to be healthy
+        run: sleep 10
+
+      - name: Run integration tests
+        run: npm test -- tests/integration.test.js
