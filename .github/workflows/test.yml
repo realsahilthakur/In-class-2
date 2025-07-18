@@ -2,13 +2,16 @@ name: Run Unit Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: [self-hosted-windows, self-hosted-linux]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
@@ -22,5 +25,5 @@ jobs:
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports
+          name: test-reports-${{ matrix.runner }}
           path: coverage/
