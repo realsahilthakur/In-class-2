@@ -1,4 +1,4 @@
-name: Task 3 - Integration Test on Static Site Container
+name: Task 3 - Integration Test with Service Container
 
 on:
   workflow_run:
@@ -7,11 +7,11 @@ on:
       - completed
 
 jobs:
-  test:
+  integration-test:
     runs-on: ubuntu-latest
 
     services:
-      web:
+      app:
         image: ghcr.io/${{ github.repository }}:latest
         ports:
           - 8080:80
@@ -23,14 +23,14 @@ jobs:
           --health-start-period=5s
 
     steps:
-      - name: Wait for container to be healthy
+      - name: Wait for service container to be healthy
         run: sleep 10
 
       - name: Test HTTP status code
         run: |
-          status_code=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8080)
-          echo "Status code: $status_code"
-          if [ "$status_code" -ne 200 ]; then
-            echo "Site is not up!"
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8080)
+          echo "HTTP Status Code: $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "Application did not respond with 200 OK"
             exit 1
           fi
