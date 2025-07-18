@@ -1,4 +1,4 @@
-name: Task 3 - Build and Push Docker Image
+name: Task 3 - Build, Push Docker Image and Test with Port
 
 on: [push]
 
@@ -25,10 +25,14 @@ jobs:
           IMAGE_NAME=ghcr.io/${{ github.actor }}/$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           docker push $IMAGE_NAME:latest
 
-      - name: Run container (no ports exposed)
+      - name: Run container and test HTTP endpoint
         run: |
           IMAGE_NAME=ghcr.io/${{ github.actor }}/$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
-          docker run --rm $IMAGE_NAME:latest
+          docker run -d -p 3000:80 --name test-app $IMAGE_NAME:latest
+          sleep 15
+          curl -f http://localhost:3000
+          docker stop test-app
+          docker rm test-app
 
       - name: 🔧 Run custom Docker action
         uses: ./.github/custom-action
