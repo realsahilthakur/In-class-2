@@ -8,10 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      matrix:
-        runner: [self-hosted-windows]
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
