@@ -1,5 +1,5 @@
 name: "Setup Test Environment"
-description: "Sets up Node.js, installs dependencies, and sets env vars"
+description: "Sets up Node.js, installs dependencies, and sets environment variables"
 inputs:
   node-version:
     description: "Node.js version to install"

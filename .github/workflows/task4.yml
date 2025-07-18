@@ -1,4 +1,4 @@
-name: Run Tests with Custom Action
+name: Task 4 - Run Tests with Custom Action
 
 on: [push]
 
@@ -6,10 +6,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Test Environment
-        uses: ./.github/custom-actions
+        uses: ./.github/custom-actions/setup-test-env
         with:
           node-version: "20"
 
