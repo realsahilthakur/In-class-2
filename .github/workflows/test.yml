@@ -2,28 +2,31 @@ name: Run Unit Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [master]
   pull_request:
-    branches: [ main ]
+    branches: [master]
 
 jobs:
   test:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      matrix:
-        runner: [self-hosted-windows, self-hosted-linux]
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install dependencies
         run: npm install
+
       - name: Run tests
         run: npm test -- --coverage
+
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports-${{ matrix.runner }}
+          name: test-report
           path: coverage/
