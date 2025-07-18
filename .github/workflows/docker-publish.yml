@@ -1,8 +1,8 @@
-name: Build and Push Docker Image to GitHub Packages
+name: Build and Push Docker Image
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   docker:
@@ -18,5 +18,5 @@ jobs:
       - name: Build Docker image
         run: docker build -t ghcr.io/${{ github.repository }}:latest .
 
-      - name: Push image to GitHub Packages
+      - name: Push Docker image
         run: docker push ghcr.io/${{ github.repository }}:latest

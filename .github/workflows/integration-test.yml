@@ -1,8 +1,8 @@
-name: Integration Test with Service Container
+name: Integration Test on Static Site Container
 
 on:
   workflow_run:
-    workflows: ["Build and Push Docker Image to GitHub Packages"]
+    workflows: ["Build and Push Docker Image"]
     types:
       - completed
 
@@ -11,31 +11,26 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      app:
+      web:
         image: ghcr.io/${{ github.repository }}:latest
         ports:
-          - 3000:3000
+          - 8080:80
         options: >-
-          --health-cmd="curl --fail http://localhost:3000 || exit 1"
+          --health-cmd="wget --spider -q http://localhost:80"
           --health-interval=5s
           --health-retries=5
-          --health-timeout=3s
+          --health-timeout=2s
           --health-start-period=5s
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
-
       - name: Wait for container to be healthy
         run: sleep 10
 
-      - name: Run integration tests
-        run: npm test -- tests/integration.test.js
+      - name: Test HTTP status code
+        run: |
+          status_code=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:8080)
+          echo "Status code: $status_code"
+          if [ "$status_code" -ne 200 ]; then
+            echo "Site is not up!"
+            exit 1
+          fi
