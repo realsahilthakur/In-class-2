@@ -1,4 +1,4 @@
-name: Integration Test on Static Site Container
+name: Task 3 - Integration Test on Static Site Container
 
 on:
   workflow_run:

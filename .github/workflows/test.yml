@@ -1,4 +1,4 @@
-name: Run Unit Tests and Upload Coverage Report
+name: Task 1 - Run Unit Tests and Upload Coverage Report
 
 on:
   push:

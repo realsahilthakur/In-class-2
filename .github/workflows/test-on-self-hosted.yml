@@ -1,4 +1,4 @@
-name: Run Tests on Self-Hosted Runners
+name: Task 2 - Run Tests on Self-Hosted Runners
 
 on:
   push:
