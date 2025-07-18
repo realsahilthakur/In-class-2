@@ -8,10 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      matrix:
-        runner: [windows-latest]
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
