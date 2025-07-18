@@ -1,20 +1,13 @@
-name: "Setup Test Environment"
-description: "Sets up Node.js, installs dependencies, and sets environment variables"
-inputs:
-  node-version:
-    description: "Node.js version to install"
-    required: true
-    default: "20"
+name: 'Setup Test Environment'
+description: 'Install dependencies and prepare testing environment'
+
 runs:
   using: "composite"
   steps:
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ inputs.node-version }}
-
-    - name: Install dependencies
+    - name: Install Node dependencies
       run: npm install
+      shell: bash
 
-    - name: Set environment variable
-      run: echo "TEST_ENV=true" >> $GITHUB_ENV
+    - name: Install Jest
+      run: npm install --save-dev jest
+      shell: bash
